@@ -9,8 +9,9 @@ uses
 
 type
 
-  TGSContainer = class(TLayout, IGSContainer)
+  TGSLayout = class(TLayout)
   private
+    { private declarations }
     FMinHeight: Single;
     FAutoHeight: Boolean;
     FFill: TBrush;
@@ -29,14 +30,78 @@ type
     procedure SetYRadius(const Value: Single);
     procedure SetCorners(const Value: TCorners);
     procedure SetCornerType(const Value: TCornerType);
+  protected
+    { protected declarations }
+    procedure DoFillChange(Sender: TObject);
+    procedure Paint; override;
+    function CalcNewHeight: Single;
+    procedure DoRealign; override;
+    procedure Resize; override;
+  public
+    { public declarations }
+    constructor Create(AOwner: TComponent); override;
+    destructor Destroy; override;
+  published
+    { published declarations }
+    property MinHeight: Single read GetMinHeight write FMinHeight;
+    property AutoHeight: Boolean read FAutoHeight write SetAutoHeight;
+    property Fill: TBrush read FFill write SetFill;
+    property Sides: TSides read FSides write SetSides stored IsSidesStored;
+    property XRadius: Single read FXRadius write SetXRadius;
+    property YRadius: Single read FYRadius write SetYRadius;
+    property Corners: TCorners read FCorners write SetCorners;
+    property CornerType: TCornerType read FCornerType write SetCornerType default TCornerType.Round;
+  end;
+
+  TGSFlowLayout = class(TFlowLayout)
+  private
     { private declarations }
+    FMinHeight: Single;
+    FAutoHeight: Boolean;
+    FFill: TBrush;
+    FCornerType: TCornerType;
+    FCorners: TCorners;
+    FSides: TSides;
+    FXRadius: Single;
+    FYRadius: Single;
+    function IsSidesStored: Boolean;
+    procedure SetMinHeight(const Value: Single);
+    function GetMinHeight: Single;
+    procedure SetAutoHeight(const Value: Boolean);
+    procedure SetFill(const Value: TBrush);
+    procedure SetCorners(const Value: TCorners);
+    procedure SetCornerType(const Value: TCornerType);
+    procedure SetSides(const Value: TSides);
+    procedure SetXRadius(const Value: Single);
+    procedure SetYRadius(const Value: Single);
   protected
     { protected declarations }
     procedure Paint; override;
     function CalcNewHeight: Single;
-    function GetScreenType: TScreenType;
     procedure DoRealign; override;
     procedure Resize; override;
+  public
+    { public declarations }
+    constructor Create(AOwner: TComponent); override;
+    destructor Destroy; override;
+  published
+    { published declarations }
+    property MinHeight: Single read GetMinHeight write FMinHeight;
+    property AutoHeight: Boolean read FAutoHeight write SetAutoHeight;
+    property Fill: TBrush read FFill write SetFill;
+    property Sides: TSides read FSides write SetSides stored IsSidesStored;
+    property XRadius: Single read FXRadius write SetXRadius;
+    property YRadius: Single read FYRadius write SetYRadius;
+    property Corners: TCorners read FCorners write SetCorners;
+    property CornerType: TCornerType read FCornerType write SetCornerType default TCornerType.Round;
+  end;
+
+  TGSContainer = class(TGSLayout, IGSContainer)
+  private
+    { private declarations }
+  protected
+    { protected declarations }
+    function GetScreenType: TScreenType;
   public
     { public declarations }
     constructor Create(AOwner: TComponent); override;
@@ -44,91 +109,31 @@ type
   published
     { published declarations }
     property ScreenType: TScreenType read GetScreenType;
-    property MinHeight: Single read GetMinHeight write FMinHeight;
-    property AutoHeight: Boolean read FAutoHeight write SetAutoHeight;
-    property Fill: TBrush read FFill write SetFill;
-    property Sides: TSides read FSides write SetSides stored IsSidesStored;
-    property XRadius: Single read FXRadius write SetXRadius;
-    property YRadius: Single read FYRadius write SetYRadius;
-    property Corners: TCorners read FCorners write SetCorners;
-    property CornerType: TCornerType read FCornerType write SetCornerType default TCornerType.Round;
   end;
 
-  TGSRow = class(TFlowLayout, IGSRow)
+  TGSRow = class(TGSFlowLayout, IGSRow)
   private
     { private declarations }
-    FMinHeight: Single;
-    FAutoHeight: Boolean;
-    FFill: TBrush;
-    FCornerType: TCornerType;
-    FCorners: TCorners;
-    FSides: TSides;
-    FXRadius: Single;
-    FYRadius: Single;
-    function IsSidesStored: Boolean;
-    procedure SetMinHeight(const Value: Single);
-    function GetMinHeight: Single;
-    procedure SetAutoHeight(const Value: Boolean);
-    procedure SetFill(const Value: TBrush);
-    procedure SetCorners(const Value: TCorners);
-    procedure SetCornerType(const Value: TCornerType);
-    procedure SetSides(const Value: TSides);
-    procedure SetXRadius(const Value: Single);
-    procedure SetYRadius(const Value: Single);
   protected
     { protected declarations }
-    procedure Paint; override;
-    function CalcNewHeight: Single;
-    procedure DoRealign; override;
-    procedure Resize; override;
   public
     { public declarations }
-    constructor Create(AOwner: TComponent); override;
-    destructor Destroy; override;
   published
     { published declarations }
-    property MinHeight: Single read GetMinHeight write FMinHeight;
-    property AutoHeight: Boolean read FAutoHeight write SetAutoHeight;
-    property Fill: TBrush read FFill write SetFill;
-    property Sides: TSides read FSides write SetSides stored IsSidesStored;
-    property XRadius: Single read FXRadius write SetXRadius;
-    property YRadius: Single read FYRadius write SetYRadius;
-    property Corners: TCorners read FCorners write SetCorners;
-    property CornerType: TCornerType read FCornerType write SetCornerType default TCornerType.Round;
   end;
 
-  TGSCol = class(TLayout, IGSCol)
+  TGSCol = class(TGSLayout, IGSCol)
   private
     { private declarations }
     FColumns: TGSColumnsDictionary;
     FOnColumnsChanged: TNotifyEvent;
-    FMinHeight: Single;
-    FAutoHeight: Boolean;
-    FFill: TBrush;
-    FCornerType: TCornerType;
-    FCorners: TCorners;
-    FSides: TSides;
-    FXRadius: Single;
-    FYRadius: Single;
-    function IsSidesStored: Boolean;
     procedure SetColumns(const Value: TGSColumnsDictionary);
     function GetColumns: TGSColumnsDictionary;
     procedure DoValueNotify(Sender: TObject; const Item: GSColumnWidth; Action: TCollectionNotification);
-    function GetMinHeight: Single;
-    procedure SetAutoHeight(const Value: Boolean);
-    procedure SetFill(const Value: TBrush);
-    procedure SetCorners(const Value: TCorners);
-    procedure SetCornerType(const Value: TCornerType);
-    procedure SetSides(const Value: TSides);
-    procedure SetXRadius(const Value: Single);
-    procedure SetYRadius(const Value: Single);
   protected
     { protected declarations }
-    procedure Paint; override;
-    procedure SetWidthByColumn;
-    function CalcNewHeight: Single;
     procedure DoRealign; override;
-    procedure Resize; override;
+    procedure SetWidthByColumn;
     procedure LoadCompProperty(Stream: TStream);
     procedure StoreCompProperty(Stream: TStream);
     procedure DefineProperties(Filer: TFiler); override;
@@ -136,71 +141,25 @@ type
     { public declarations }
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
-
   published
     { published declarations }
     property Columns: TGSColumnsDictionary read GetColumns write SetColumns;
-    property MinHeight: Single read GetMinHeight write FMinHeight;
-    property AutoHeight: Boolean read FAutoHeight write SetAutoHeight;
-    property Fill: TBrush read FFill write SetFill;
-    property Sides: TSides read FSides write SetSides stored IsSidesStored;
-    property XRadius: Single read FXRadius write SetXRadius;
-    property YRadius: Single read FYRadius write SetYRadius;
-    property Corners: TCorners read FCorners write SetCorners;
-    property CornerType: TCornerType read FCornerType write SetCornerType default TCornerType.Round;
   end;
 
 implementation
 
-{ TGSGrid }
-
-function TGSContainer.CalcNewHeight: Single;
-  function MaxBottomControl(Control: TControl): Single;
-  begin
-    if Control.Visible then
-      Result := Control.Position.Y + Control.Height + Control.Margins.Bottom + TControl(Control.Parent).Padding.Bottom
-    else
-      Result := 0;
-  end;
-
-var
-  I: Integer;
-  NewHeight: Single;
-begin
-  NewHeight := FMinHeight;
-  for I := 0 to ControlsCount - 1 do
-  begin
-    if MaxBottomControl(Controls[I]) > NewHeight then
-      NewHeight := MaxBottomControl(Controls[I]);
-  end;
-  Result := NewHeight;
-end;
+{ TGSContainer }
 
 constructor TGSContainer.Create(AOwner: TComponent);
 begin
   inherited;
-  CanParentFocus := True;
-  HitTest := False;
-  FMinHeight := 50;
-  FFill := TBrush.Create(TBrushKind.None, $FFFFFFFF);
+
 end;
 
 destructor TGSContainer.Destroy;
 begin
-  FreeAndNil(FFill);
-  inherited;
-end;
 
-procedure TGSContainer.DoRealign;
-begin
   inherited;
-  if FAutoHeight then
-    Self.Height := CalcNewHeight;
-end;
-
-function TGSContainer.GetMinHeight: Single;
-begin
-  Result := FMinHeight;
 end;
 
 function TGSContainer.GetScreenType: TScreenType;
@@ -220,266 +179,16 @@ begin
     Result := TScreenType.ScreenExtraLarge;
 end;
 
-function TGSContainer.IsSidesStored: Boolean;
-begin
-  Result := FSides * AllSides <> AllSides
-end;
-
-procedure TGSContainer.Paint;
-var
-  LShapeRect: TRectF;
-  Off: Single;
-
-begin
-  inherited;
-  try
-    LShapeRect := TRectF.Create(0, 0, Width, Height);
-    if Sides <> AllSides then
-    begin
-      Off := LShapeRect.Left;
-      if not(TSide.Top in FSides) then
-        LShapeRect.Top := LShapeRect.Top - Off;
-      if not(TSide.Left in FSides) then
-        LShapeRect.Left := LShapeRect.Left - Off;
-      if not(TSide.Bottom in FSides) then
-        LShapeRect.Bottom := LShapeRect.Bottom + Off;
-      if not(TSide.Right in FSides) then
-        LShapeRect.Right := LShapeRect.Right + Off;
-      Canvas.FillRect(LShapeRect, XRadius, YRadius, FCorners, AbsoluteOpacity, FFill, CornerType);
-    end
-    else
-    begin
-      Canvas.FillRect(LShapeRect, XRadius, YRadius, FCorners, AbsoluteOpacity, FFill, CornerType);
-    end;
-  finally
-
-  end;
-end;
-
-procedure TGSContainer.Resize;
-begin
-  inherited;
-  Realign;
-end;
-
-procedure TGSContainer.SetAutoHeight(const Value: Boolean);
-begin
-  FAutoHeight := Value;
-end;
-
-procedure TGSContainer.SetCorners(const Value: TCorners);
-begin
-  FCorners := Value;
-end;
-
-procedure TGSContainer.SetCornerType(const Value: TCornerType);
-begin
-  FCornerType := Value;
-end;
-
-procedure TGSContainer.SetFill(const Value: TBrush);
-begin
-  FFill := Value;
-end;
-
-procedure TGSContainer.SetMinHeight(const Value: Single);
-begin
-  FMinHeight := Value;
-end;
-
-procedure TGSContainer.SetSides(const Value: TSides);
-begin
-  FSides := Value;
-end;
-
-procedure TGSContainer.SetXRadius(const Value: Single);
-begin
-  FXRadius := Value;
-end;
-
-procedure TGSContainer.SetYRadius(const Value: Single);
-begin
-  FYRadius := Value;
-end;
-
-{ TGSRow }
-
-function TGSRow.CalcNewHeight: Single;
-  function MaxBottomControl(Control: TControl): Single;
-  begin
-    if Control.Visible then
-      Result := Control.Position.Y + Control.Height + Control.Margins.Bottom + TControl(Control.Parent).Padding.Bottom
-    else
-      Result := 0;
-  end;
-
-var
-  I: Integer;
-  NewHeight: Single;
-begin
-  NewHeight := FMinHeight;
-
-  for I := 0 to ControlsCount - 1 do
-  begin
-    if MaxBottomControl(Controls[I]) > NewHeight then
-      NewHeight := MaxBottomControl(Controls[I]);
-  end;
-  Result := NewHeight;
-end;
-
-constructor TGSRow.Create(AOwner: TComponent);
-begin
-  inherited;
-  CanParentFocus := True;
-  HitTest := False;
-  FMinHeight := 50;
-  FFill := TBrush.Create(TBrushKind.None, $FFFFFFFF);
-end;
-
-destructor TGSRow.Destroy;
-begin
-  FreeAndNil(FFill);
-  inherited;
-end;
-
-procedure TGSRow.DoRealign;
-begin
-  inherited;
-  if FAutoHeight then
-    Height := CalcNewHeight;
-end;
-
-function TGSRow.GetMinHeight: Single;
-begin
-  Result := FMinHeight
-end;
-
-function TGSRow.IsSidesStored: Boolean;
-begin
-  Result := FSides * AllSides <> AllSides
-end;
-
-procedure TGSRow.Paint;
-var
-  LShapeRect: TRectF;
-  Off: Single;
-begin
-  inherited;
-  try
-    LShapeRect := TRectF.Create(0, 0, Width, Height);
-    if Sides <> AllSides then
-    begin
-      Off := LShapeRect.Left;
-      if not(TSide.Top in FSides) then
-        LShapeRect.Top := LShapeRect.Top - Off;
-      if not(TSide.Left in FSides) then
-        LShapeRect.Left := LShapeRect.Left - Off;
-      if not(TSide.Bottom in FSides) then
-        LShapeRect.Bottom := LShapeRect.Bottom + Off;
-      if not(TSide.Right in FSides) then
-        LShapeRect.Right := LShapeRect.Right + Off;
-      Canvas.FillRect(LShapeRect, XRadius, YRadius, FCorners, AbsoluteOpacity, FFill, CornerType);
-    end
-    else
-    begin
-      Canvas.FillRect(LShapeRect, XRadius, YRadius, FCorners, AbsoluteOpacity, FFill, CornerType);
-    end;
-  finally
-
-  end;
-end;
-
-procedure TGSRow.Resize;
-var
-  I: Integer;
-begin
-  inherited;
-  for I := 0 to ControlsCount - 1 do
-  begin
-    if Supports(Controls[I], IGSCol) then
-    begin
-      TGSCol(Controls[I]).Realign;
-    end;
-  end;
-  Realign;
-end;
-
-procedure TGSRow.SetAutoHeight(const Value: Boolean);
-begin
-  FAutoHeight := Value;
-end;
-
-procedure TGSRow.SetCorners(const Value: TCorners);
-begin
-  FCorners := Value;
-end;
-
-procedure TGSRow.SetCornerType(const Value: TCornerType);
-begin
-  FCornerType := Value;
-end;
-
-procedure TGSRow.SetFill(const Value: TBrush);
-begin
-  FFill := Value;
-end;
-
-procedure TGSRow.SetMinHeight(const Value: Single);
-begin
-  FMinHeight := Value;
-end;
-
-procedure TGSRow.SetSides(const Value: TSides);
-begin
-  FSides := Value;
-end;
-
-procedure TGSRow.SetXRadius(const Value: Single);
-begin
-  FXRadius := Value;
-end;
-
-procedure TGSRow.SetYRadius(const Value: Single);
-begin
-  FYRadius := Value;
-end;
-
 { TGSCol }
-
-function TGSCol.CalcNewHeight: Single;
-  function MaxBottomControl(Control: TControl): Single;
-  begin
-    if Control.Visible then
-      Result := Control.Position.Y + Control.Height + Control.Margins.Bottom + TControl(Control.Parent).Padding.Bottom
-    else
-      Result := 0;
-  end;
-
-var
-  I: Integer;
-  NewHeight: Single;
-begin
-  NewHeight := FMinHeight;
-
-  for I := 0 to ControlsCount - 1 do
-  begin
-    if MaxBottomControl(Controls[I]) > NewHeight then
-      NewHeight := MaxBottomControl(Controls[I]);
-  end;
-  Result := NewHeight;
-end;
 
 constructor TGSCol.Create(AOwner: TComponent);
 begin
   inherited;
   FColumns := TGSColumnsDictionary.Create;
   FColumns.OnValueNotify := DoValueNotify;
-  FMinHeight := 50;
-  FFill := TBrush.Create(TBrushKind.None, $FFFFFFFF);
 end;
 
 procedure TGSCol.DefineProperties(Filer: TFiler);
-
   function DoWrite: Boolean;
   begin
     if Filer.Ancestor <> nil then
@@ -503,7 +212,6 @@ destructor TGSCol.Destroy;
 begin
   FColumns.Clear;
   FColumns.Free;
-  FreeAndNil(FFill);
   inherited;
 end;
 
@@ -511,13 +219,11 @@ procedure TGSCol.DoRealign;
 begin
   inherited;
   SetWidthByColumn;
-  if FAutoHeight then
-    Height := CalcNewHeight;
 end;
 
 procedure TGSCol.DoValueNotify(Sender: TObject; const Item: GSColumnWidth; Action: TCollectionNotification);
 begin
-
+  SetWidthByColumn;
   Realign;
 end;
 
@@ -526,57 +232,172 @@ begin
   Result := FColumns;
 end;
 
-function TGSCol.GetMinHeight: Single;
-begin
-  Result := FMinHeight;
-end;
-
-function TGSCol.IsSidesStored: Boolean;
-begin
-
-end;
-
 procedure TGSCol.LoadCompProperty(Stream: TStream);
 var
-  StringList: TStringList;
-  I: Integer;
+  LStringList: TStringList;
+  LStrCount: Integer;
 begin
-
-  StringList := TStringList.Create;
+  LStringList := TStringList.Create;
   try
-    StringList.LoadFromStream(Stream);
-
+    LStringList.LoadFromStream(Stream);
     Columns.Clear;
-    for I := 0 to StringList.Count - 1 do
+    for LStrCount := 0 to LStringList.Count - 1 do
     begin
-      Columns.Add(TScreenType(GetEnumValue(TypeInfo(TScreenType), StringList.Names[I])), StringList.Values[StringList.Names[I]].ToInteger);
+      Columns.Add(TScreenType(GetEnumValue(TypeInfo(TScreenType), LStringList.Names[LStrCount])),
+        LStringList.Values[LStringList.Names[LStrCount]].ToInteger);
     end;
     SetWidthByColumn;
     Realign;
   finally
-    FreeAndNil(StringList);
+    FreeAndNil(LStringList);
   end;
 end;
 
-procedure TGSCol.Paint;
+procedure TGSCol.SetColumns(const Value: TGSColumnsDictionary);
+begin
+  FColumns := Value;
+end;
+
+procedure TGSCol.SetWidthByColumn;
+var
+  LGSRow: TGSRow;
+  LGSContainer: TGSContainer;
+  LColumnsCount: Integer;
+  LNewWidth: Single;
+  LColumnWidth: GSColumnWidth;
+begin
+  if Supports(Parent, IGSRow) then
+  begin
+    LGSRow := Parent as TGSRow;
+    if Supports(LGSRow.Parent, IGSContainer) then
+    begin
+      LGSContainer := LGSRow.Parent as TGSContainer;
+      LNewWidth := TControl(LGSContainer).Width - Margins.Left - Margins.Right - 0.001;
+      if Columns.ContainsKey(LGSContainer.ScreenType) then
+      begin
+        LNewWidth := TControl(LGSContainer).Width * Columns.Items[LGSContainer.ScreenType] / High(GSColumnWidth) - Margins.Left -
+          Margins.Right - 0.001;
+      end
+      else
+      begin
+        for LColumnsCount := 0 to Integer(High(TScreenType)) do
+        begin
+          if Columns.TryGetValue(TScreenType(LColumnsCount), LColumnWidth) then
+          begin
+            LNewWidth := TControl(LGSContainer).Width * LColumnWidth / High(GSColumnWidth) - Margins.Left - Margins.Right - 0.001;
+          end;
+          if LGSContainer.ScreenType < TScreenType(LColumnsCount) then
+            Break;
+        end;
+      end;
+      Width := LNewWidth;
+    end;
+  end;
+end;
+
+procedure TGSCol.StoreCompProperty(Stream: TStream);
+var
+  LKey: TScreenType;
+  LStrList: TStringList;
+begin
+  if Columns <> nil then
+  begin
+    LStrList := TStringList.Create;
+    try
+      for LKey in FColumns.Keys do
+      begin
+        LStrList.AddPair(GetEnumName(TypeInfo(TScreenType), Integer(LKey)), IntToStr(Columns.Items[LKey]));
+      end;
+    finally
+      LStrList.SaveToStream(Stream);
+      FreeAndNil(LStrList);
+      SetWidthByColumn;
+      Realign;
+    end;
+  end;
+end;
+
+{ TGSLayout }
+
+function TGSLayout.CalcNewHeight: Single;
+  function MaxBottomControl(Control: TControl): Single;
+  begin
+    if Control.Visible then
+      Result := Control.Position.Y + Control.Height + Control.Margins.Bottom + TControl(Control.Parent).Padding.Bottom
+    else
+      Result := 0;
+  end;
+
+var
+  LControlsCount: Integer;
+  LNewHeight: Single;
+begin
+  LNewHeight := FMinHeight;
+  for LControlsCount := 0 to ControlsCount - 1 do
+  begin
+    if MaxBottomControl(Controls[LControlsCount]) > LNewHeight then
+      LNewHeight := MaxBottomControl(Controls[LControlsCount]);
+  end;
+  Result := LNewHeight;
+end;
+
+constructor TGSLayout.Create(AOwner: TComponent);
+begin
+  inherited;
+  CanParentFocus := True;
+  HitTest := False;
+  FMinHeight := 50;
+  FFill := TBrush.Create(TBrushKind.None, $FFFFFFFF);
+  FFill.OnChanged:= DoFillChange;
+end;
+
+destructor TGSLayout.Destroy;
+begin
+  FreeAndNil(FFill);
+  inherited;
+end;
+
+procedure TGSLayout.DoFillChange(Sender: TObject);
+begin
+  Repaint;
+end;
+
+procedure TGSLayout.DoRealign;
+begin
+  inherited;
+  if FAutoHeight then
+    Self.Height := CalcNewHeight;
+end;
+
+function TGSLayout.GetMinHeight: Single;
+begin
+  Result := FMinHeight;
+end;
+
+function TGSLayout.IsSidesStored: Boolean;
+begin
+  Result := FSides * AllSides <> AllSides
+end;
+
+procedure TGSLayout.Paint;
 var
   LShapeRect: TRectF;
-  Off: Single;
+  LOff: Single;
 begin
   inherited;
   try
     LShapeRect := TRectF.Create(0, 0, Width, Height);
     if Sides <> AllSides then
     begin
-      Off := LShapeRect.Left;
+      LOff := LShapeRect.Left;
       if not(TSide.Top in FSides) then
-        LShapeRect.Top := LShapeRect.Top - Off;
+        LShapeRect.Top := LShapeRect.Top - LOff;
       if not(TSide.Left in FSides) then
-        LShapeRect.Left := LShapeRect.Left - Off;
+        LShapeRect.Left := LShapeRect.Left - LOff;
       if not(TSide.Bottom in FSides) then
-        LShapeRect.Bottom := LShapeRect.Bottom + Off;
+        LShapeRect.Bottom := LShapeRect.Bottom + LOff;
       if not(TSide.Right in FSides) then
-        LShapeRect.Right := LShapeRect.Right + Off;
+        LShapeRect.Right := LShapeRect.Right + LOff;
       Canvas.FillRect(LShapeRect, XRadius, YRadius, FCorners, AbsoluteOpacity, FFill, CornerType);
     end
     else
@@ -588,94 +409,192 @@ begin
   end;
 end;
 
-procedure TGSCol.Resize;
+procedure TGSLayout.Resize;
 begin
   inherited;
   Realign;
 end;
 
-procedure TGSCol.SetAutoHeight(const Value: Boolean);
+procedure TGSLayout.SetAutoHeight(const Value: Boolean);
 begin
   FAutoHeight := Value;
 end;
 
-procedure TGSCol.SetColumns(const Value: TGSColumnsDictionary);
-begin
-  FColumns := Value;
-end;
-
-procedure TGSCol.SetCorners(const Value: TCorners);
+procedure TGSLayout.SetCorners(const Value: TCorners);
 begin
   FCorners := Value;
 end;
 
-procedure TGSCol.SetCornerType(const Value: TCornerType);
+procedure TGSLayout.SetCornerType(const Value: TCornerType);
 begin
   FCornerType := Value;
 end;
 
-procedure TGSCol.SetFill(const Value: TBrush);
+procedure TGSLayout.SetFill(const Value: TBrush);
 begin
   FFill := Value;
 end;
 
-procedure TGSCol.SetSides(const Value: TSides);
+procedure TGSLayout.SetMinHeight(const Value: Single);
+begin
+  FMinHeight := Value;
+end;
+
+procedure TGSLayout.SetSides(const Value: TSides);
 begin
   FSides := Value;
 end;
 
-procedure TGSCol.SetWidthByColumn;
-var
-  GSRow: TGSRow;
-  GSContainer: TGSContainer;
-begin
-  if Supports(Parent, IGSRow) then
-  begin
-    GSRow := Parent as TGSRow;
-    if Supports(GSRow.Parent, IGSContainer) then
-    begin
-      GSContainer := GSRow.Parent as TGSContainer;
-      if Columns.ContainsKey(GSContainer.ScreenType) then
-      begin
-        Width := TControl(GSContainer).Width * Columns.Items[GSContainer.ScreenType] / High(GSColumnWidth) - Margins.Left - Margins.Right - 0.001
-      end
-      else
-        Width := TControl(GSContainer).Width - Margins.Left - Margins.Right;
-    end;
-  end;
-end;
-
-procedure TGSCol.SetXRadius(const Value: Single);
+procedure TGSLayout.SetXRadius(const Value: Single);
 begin
   FXRadius := Value;
 end;
 
-procedure TGSCol.SetYRadius(const Value: Single);
+procedure TGSLayout.SetYRadius(const Value: Single);
 begin
   FYRadius := Value;
 end;
 
-procedure TGSCol.StoreCompProperty(Stream: TStream);
-var
-  Key: TScreenType;
-  StrList: TStringList;
-begin
-  if Columns <> nil then
+{ TGSFlowLayout }
+
+function TGSFlowLayout.CalcNewHeight: Single;
+  function MaxBottomControl(Control: TControl): Single;
   begin
-    StrList := TStringList.Create;
-    try
-      for Key in FColumns.Keys do
-      begin
-        StrList.AddPair(GetEnumName(TypeInfo(TScreenType), Integer(Key)), IntToStr(Columns.Items[Key]));
-      end;
-    finally
-      StrList.SaveToStream(Stream);
-      FreeAndNil(StrList);
-      SetWidthByColumn;
-      Realign;
+    if Control.Visible then
+      Result := Control.Position.Y + Control.Height + Control.Margins.Bottom + TControl(Control.Parent).Padding.Bottom
+    else
+      Result := 0;
+  end;
+
+var
+  LControlsCount: Integer;
+  LNewHeight: Single;
+begin
+  LNewHeight := FMinHeight;
+
+  for LControlsCount := 0 to ControlsCount - 1 do
+  begin
+    if MaxBottomControl(Controls[LControlsCount]) > LNewHeight then
+      LNewHeight := MaxBottomControl(Controls[LControlsCount]);
+  end;
+  Result := LNewHeight;
+end;
+
+constructor TGSFlowLayout.Create(AOwner: TComponent);
+begin
+  inherited;
+  CanParentFocus := True;
+  HitTest := False;
+  FMinHeight := 50;
+  FFill := TBrush.Create(TBrushKind.None, $FFFFFFFF);
+end;
+
+destructor TGSFlowLayout.Destroy;
+begin
+  FreeAndNil(FFill);
+  inherited;
+end;
+
+procedure TGSFlowLayout.DoRealign;
+begin
+  inherited;
+  if FAutoHeight then
+    Height := CalcNewHeight;
+end;
+
+function TGSFlowLayout.GetMinHeight: Single;
+begin
+  Result := FMinHeight
+end;
+
+function TGSFlowLayout.IsSidesStored: Boolean;
+begin
+  Result := FSides * AllSides <> AllSides
+end;
+
+procedure TGSFlowLayout.Paint;
+var
+  LShapeRect: TRectF;
+  LOff: Single;
+begin
+  inherited;
+  try
+    LShapeRect := TRectF.Create(0, 0, Width, Height);
+    if Sides <> AllSides then
+    begin
+      LOff := LShapeRect.Left;
+      if not(TSide.Top in FSides) then
+        LShapeRect.Top := LShapeRect.Top - LOff;
+      if not(TSide.Left in FSides) then
+        LShapeRect.Left := LShapeRect.Left - LOff;
+      if not(TSide.Bottom in FSides) then
+        LShapeRect.Bottom := LShapeRect.Bottom + LOff;
+      if not(TSide.Right in FSides) then
+        LShapeRect.Right := LShapeRect.Right + LOff;
+      Canvas.FillRect(LShapeRect, XRadius, YRadius, FCorners, AbsoluteOpacity, FFill, CornerType);
+    end
+    else
+    begin
+      Canvas.FillRect(LShapeRect, XRadius, YRadius, FCorners, AbsoluteOpacity, FFill, CornerType);
     end;
+  finally
 
   end;
+end;
+
+procedure TGSFlowLayout.Resize;
+var
+  LControlsCount: Integer;
+begin
+  inherited;
+  for LControlsCount := 0 to ControlsCount - 1 do
+  begin
+    if Supports(Controls[LControlsCount], IGSCol) then
+    begin
+      TGSCol(Controls[LControlsCount]).Realign;
+    end;
+  end;
+  Realign;
+end;
+
+procedure TGSFlowLayout.SetAutoHeight(const Value: Boolean);
+begin
+  FAutoHeight := Value;
+end;
+
+procedure TGSFlowLayout.SetCorners(const Value: TCorners);
+begin
+  FCorners := Value;
+end;
+
+procedure TGSFlowLayout.SetCornerType(const Value: TCornerType);
+begin
+  FCornerType := Value;
+end;
+
+procedure TGSFlowLayout.SetFill(const Value: TBrush);
+begin
+  FFill := Value;
+end;
+
+procedure TGSFlowLayout.SetMinHeight(const Value: Single);
+begin
+  FMinHeight := Value;
+end;
+
+procedure TGSFlowLayout.SetSides(const Value: TSides);
+begin
+  FSides := Value;
+end;
+
+procedure TGSFlowLayout.SetXRadius(const Value: Single);
+begin
+  FXRadius := Value;
+end;
+
+procedure TGSFlowLayout.SetYRadius(const Value: Single);
+begin
+  FYRadius := Value;
 end;
 
 end.
