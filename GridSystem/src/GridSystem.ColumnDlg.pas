@@ -26,6 +26,7 @@ type
     procedure Button4Click(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure cboxScreenTypeChange(Sender: TObject);
   private
     FColumns: TGSColumnsDictionary;
     { Private declarations }
@@ -70,9 +71,11 @@ begin
     strgridColumns.Cells[1, FRow] := IntToStr(FColumns.Items[Key]);
     Inc(FRow);
   end;
+  cboxScreenTypeChange(nil);
 end;
 
 procedure TGridSystemColumnDlg.Button3Click(Sender: TObject);
+var Id:Integer;
 begin
   if not FColumns.ContainsKey(TScreenType(GetEnumValue(TypeInfo(TScreenType), cboxScreenType.Items[cboxScreenType.ItemIndex]))) then
   begin
@@ -80,7 +83,13 @@ begin
     strgridColumns.RowCount := strgridColumns.RowCount + 1;
     strgridColumns.Cells[0, strgridColumns.RowCount - 1] := cboxScreenType.Items[cboxScreenType.ItemIndex];
     strgridColumns.Cells[1, strgridColumns.RowCount - 1] := Round(sboxColumnCount.Value).ToString;
+  end
+  else
+  begin
+    FColumns.Items[TScreenType(GetEnumValue(TypeInfo(TScreenType), cboxScreenType.Items[cboxScreenType.ItemIndex]))] := Round(sboxColumnCount.Value);
+    BuildStrGrid;//TODO: change just specific row, for performance reasons  (or not...)
   end;
+  cboxScreenTypeChange(nil);
 end;
 
 procedure TGridSystemColumnDlg.Button4Click(Sender: TObject);
@@ -92,11 +101,23 @@ begin
   end;
 end;
 
+procedure TGridSystemColumnDlg.cboxScreenTypeChange(Sender: TObject);
+begin
+  Button3.Text := 'Add';
+  if FColumns.ContainsKey(TScreenType(GetEnumValue(TypeInfo(TScreenType), cboxScreenType.Items[cboxScreenType.ItemIndex]))) then
+  begin
+    Button3.Text := 'Alter';
+    sboxColumnCount.Value := FColumns.Items[TScreenType(GetEnumValue(TypeInfo(TScreenType), cboxScreenType.Items[cboxScreenType.ItemIndex]))];
+  end;
+
+end;
+
 procedure TGridSystemColumnDlg.FormCreate(Sender: TObject);
 begin
   FColumns := TGSColumnsDictionary.Create;
   AddScreenTypeToComboBox;
   SetColumnWidthToSpinBox;
+  cboxScreenTypeChange(nil);
 end;
 
 procedure TGridSystemColumnDlg.FormDestroy(Sender: TObject);
