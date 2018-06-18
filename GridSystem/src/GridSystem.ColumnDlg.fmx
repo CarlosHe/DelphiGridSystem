@@ -41,6 +41,7 @@ object GridSystemColumnDlg: TGridSystemColumnDlg
     Size.Height = 22.000000000000000000
     Size.PlatformDefault = False
     TabOrder = 4
+    OnChange = cboxScreenTypeChange
   end
   object sboxColumnCount: TSpinBox
     Touch.InteractiveGestures = [LongTap, DoubleTap]
