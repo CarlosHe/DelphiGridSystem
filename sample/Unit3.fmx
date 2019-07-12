@@ -1,0 +1,231 @@
+object Form3: TForm3
+  Left = 0
+  Top = 0
+  Caption = 'Form3'
+  ClientHeight = 768
+  ClientWidth = 1058
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop]
+  DesignerMasterStyle = 0
+  object Text10: TText
+    Align = Top
+    Size.Width = 1058.000000000000000000
+    Size.Height = 50.000000000000000000
+    Size.PlatformDefault = False
+    Text = 'Grid System'
+    TextSettings.Font.Size = 20.000000000000000000
+    TextSettings.Font.StyleExt = {00070000000000000004000000}
+    TextSettings.FontColor = xFF616161
+  end
+  object VertScrollBox1: TVertScrollBox
+    Align = Client
+    Size.Width = 1058.000000000000000000
+    Size.Height = 718.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 2
+    Viewport.Width = 1058.000000000000000000
+    Viewport.Height = 718.000000000000000000
+    object GSContainer1: TGSContainer
+      Align = Top
+      Size.Width = 1058.000000000000000000
+      Size.Height = 152.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 22
+      MinHeight = 64.000000000000000000
+      AutoHeight = True
+      Sides = []
+      Corners = []
+      object GSRow1: TGSRow
+        Align = Top
+        HitTest = False
+        Size.Width = 1058.000000000000000000
+        Size.Height = 150.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 0
+        Justify = Left
+        JustifyLastLine = Center
+        FlowDirection = LeftToRight
+        MinHeight = 50.000000000000000000
+        AutoHeight = True
+        Sides = []
+        Corners = []
+        object GSCol1: TGSCol
+          Size.Width = 264.498992919921900000
+          Size.Height = 50.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 10
+          MinHeight = 50.000000000000000000
+          AutoHeight = False
+          Fill.Color = xFFFFEBEE
+          Fill.Kind = Solid
+          Sides = []
+          Corners = []
+          DataColumns = {
+            53637265656E4578747261536D616C6C3D31320D0A53637265656E4578747261
+            4C617267653D330D0A}
+        end
+        object GSCol2: TGSCol
+          Position.X = 264.498992919921900000
+          Size.Width = 264.498992919921900000
+          Size.Height = 50.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 9
+          MinHeight = 50.000000000000000000
+          AutoHeight = False
+          Fill.Color = xFFFFCDD2
+          Fill.Kind = Solid
+          Sides = []
+          Corners = []
+          DataColumns = {
+            53637265656E4578747261536D616C6C3D31320D0A53637265656E4578747261
+            4C617267653D330D0A}
+        end
+        object GSCol3: TGSCol
+          Position.X = 528.997985839843800000
+          Size.Width = 264.498992919921900000
+          Size.Height = 50.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 8
+          MinHeight = 50.000000000000000000
+          AutoHeight = False
+          Fill.Color = xFFEF9A9A
+          Fill.Kind = Solid
+          Sides = []
+          Corners = []
+          DataColumns = {
+            53637265656E4578747261536D616C6C3D31320D0A53637265656E4578747261
+            4C617267653D330D0A}
+        end
+        object GSCol4: TGSCol
+          Position.X = 793.496948242187500000
+          Size.Width = 264.498992919921900000
+          Size.Height = 50.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 7
+          MinHeight = 50.000000000000000000
+          AutoHeight = False
+          Fill.Color = xFFE57373
+          Fill.Kind = Solid
+          Sides = []
+          Corners = []
+          DataColumns = {
+            53637265656E4578747261536D616C6C3D31320D0A53637265656E4578747261
+            4C617267653D330D0A}
+        end
+        object GSCol5: TGSCol
+          Position.Y = 50.000000000000000000
+          Size.Width = 264.498992919921900000
+          Size.Height = 50.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 6
+          MinHeight = 50.000000000000000000
+          AutoHeight = False
+          Fill.Color = xFFEF5350
+          Fill.Kind = Solid
+          Sides = []
+          Corners = []
+          DataColumns = {
+            53637265656E4578747261536D616C6C3D31320D0A53637265656E4578747261
+            4C617267653D330D0A}
+        end
+        object GSCol6: TGSCol
+          Position.X = 264.498992919921900000
+          Position.Y = 50.000000000000000000
+          Size.Width = 264.498992919921900000
+          Size.Height = 50.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 5
+          MinHeight = 50.000000000000000000
+          AutoHeight = False
+          Fill.Color = xFFF44336
+          Fill.Kind = Solid
+          Sides = []
+          Corners = []
+          DataColumns = {
+            53637265656E4578747261536D616C6C3D31320D0A53637265656E4578747261
+            4C617267653D330D0A}
+        end
+        object GSCol7: TGSCol
+          Position.X = 528.997985839843800000
+          Position.Y = 50.000000000000000000
+          Size.Width = 264.498992919921900000
+          Size.Height = 50.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 4
+          MinHeight = 50.000000000000000000
+          AutoHeight = False
+          Fill.Color = xFFD32F2F
+          Fill.Kind = Solid
+          Sides = []
+          Corners = []
+          DataColumns = {
+            53637265656E4578747261536D616C6C3D31320D0A53637265656E4578747261
+            4C617267653D330D0A}
+        end
+        object GSCol8: TGSCol
+          Position.X = 793.496948242187500000
+          Position.Y = 50.000000000000000000
+          Size.Width = 264.498992919921900000
+          Size.Height = 50.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 3
+          MinHeight = 50.000000000000000000
+          AutoHeight = False
+          Fill.Color = xFFC62828
+          Fill.Kind = Solid
+          Sides = []
+          Corners = []
+          DataColumns = {
+            53637265656E4578747261536D616C6C3D31320D0A53637265656E4578747261
+            4C617267653D330D0A}
+        end
+        object GSCol9: TGSCol
+          Position.X = 132.251525878906300000
+          Position.Y = 100.000000000000000000
+          Size.Width = 264.498992919921900000
+          Size.Height = 50.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 2
+          MinHeight = 50.000000000000000000
+          AutoHeight = False
+          Fill.Color = xFFFFC107
+          Fill.Kind = Solid
+          Sides = []
+          Corners = []
+          DataColumns = {53637265656E4578747261536D616C6C3D330D0A}
+        end
+        object GSCol10: TGSCol
+          Position.X = 396.750518798828100000
+          Position.Y = 100.000000000000000000
+          Size.Width = 264.498992919921900000
+          Size.Height = 50.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 1
+          MinHeight = 50.000000000000000000
+          AutoHeight = False
+          Fill.Color = xFF2196F3
+          Fill.Kind = Solid
+          Sides = []
+          Corners = []
+          DataColumns = {53637265656E4578747261536D616C6C3D330D0A}
+        end
+        object GSCol11: TGSCol
+          Position.X = 661.249511718750000000
+          Position.Y = 100.000000000000000000
+          Size.Width = 264.498992919921900000
+          Size.Height = 50.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 0
+          MinHeight = 50.000000000000000000
+          AutoHeight = False
+          Fill.Color = xFF009688
+          Fill.Kind = Solid
+          Sides = []
+          Corners = []
+          DataColumns = {53637265656E4578747261536D616C6C3D330D0A}
+        end
+      end
+    end
+  end
+end
