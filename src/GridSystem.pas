@@ -126,7 +126,6 @@ type
   private
     { private declarations }
     FColumns: TGSColumnsDictionary;
-    FOnColumnsChanged: TNotifyEvent;
     procedure SetColumns(const Value: TGSColumnsDictionary);
     function GetColumns: TGSColumnsDictionary;
     procedure DoValueNotify(Sender: TObject; const Item: GSColumnWidth; Action: TCollectionNotification);
